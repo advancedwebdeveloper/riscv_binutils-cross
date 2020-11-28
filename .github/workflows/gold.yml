@@ -1,0 +1,22 @@
+name: Building Gold linker
+on:
+  create:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  configure_toolchain:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check our path
+        run: pwd
+      
+      - name: List free vRAM and check swap
+        run: free -h && swapon -a
+      - name: Mounting tmpfs
+        run: mkdir /tmp/qemu_storage && sudo mount -t tmpfs -o size=5G tmpfs /tmp/storage
+      - name: Clone RISC-V GNU Compiler Toolchain
+        run: git clone --recursive https://github.com/riscv/riscv-gnu-toolchain /tmp/storage/riscv-gnu-toolchain
+      - name: Check whether if "configure" offers top-level support for Gold
+        run: cd /tmp/storage/riscv-gnu-toolchain && ./configure --help | grep gold
