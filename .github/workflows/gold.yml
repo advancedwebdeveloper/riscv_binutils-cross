@@ -21,6 +21,6 @@ jobs:
       - name: Clone RISC-V GNU Compiler Toolchain
         run: git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
       - name: cd to another folder
-        run: cd riscv-gnu-toolchain
+        run: cd riscv-gnu-toolchain && ls configure
       - name: Check whether if "configure" offers top-level support for Gold
-        run:  ./configure --help | grep gold
+        run:  pwd && ls && ./configure --help | grep gold
