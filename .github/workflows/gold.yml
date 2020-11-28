@@ -11,12 +11,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Check our path
         run: pwd
-      
+   #Would be useful during the compilation stage:   
       - name: List free vRAM and check swap
         run: free -h && swapon -a
-      - name: Mounting tmpfs
-        run: mkdir /tmp/storage && sudo mount -t tmpfs -o size=5G tmpfs /tmp/storage
+   #  - name: Mounting tmpfs
+   #    run: mkdir /tmp/storage && sudo mount -t tmpfs -o size=5G tmpfs /tmp/storage
+      - name: Checking available disk space
+        run: df -h
       - name: Clone RISC-V GNU Compiler Toolchain
-        run: git clone --recursive https://github.com/riscv/riscv-gnu-toolchain /tmp/storage/riscv-gnu-toolchain
+        run: git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
       - name: Check whether if "configure" offers top-level support for Gold
-        run: cd /tmp/storage/riscv-gnu-toolchain && ./configure --help | grep gold
+        run: cd riscv-gnu-toolchain && ./configure --help | grep gold
